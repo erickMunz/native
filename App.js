@@ -1,23 +1,86 @@
-import React from 'react';
-import Login from './src/screens/Login';
-import Secured from './src/screens/Secured';
+import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  StatusBar
+} from 'react-native';
 
+import Login from "./src/app/components/Login";
+import Boiler from "./src/app/components/Boiler";
+import ForgetPassword from "./src/app/components/ForgetPassword";
+import Register from "./src/app/components/Register";
+import Inicio from "./src/app/components/Inicio";
 
+import { StackNavigator } from "react-navigation";
 
-export default class App extends React.Component {
-  state = {
-    isLoggedIn: false
-  }
+/*const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' +
+    'Cmd+D or shake for dev menu',
+  android: 'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
+});*/
+
+class Home extends Component<{}> {
+  static navigationOptions = {
+    headerStyle: {
+      backgroundColor: "#16a085",
+      elevation: null
+    },
+    header: null
+  };
   render() {
-
-    if (this.state.isLoggedIn) 
-      return <Secured 
-          onLogoutPress={() => this.setState({isLoggedIn: false})}
-        />;
-    else 
-      return <Login 
-          onLoginPress={() => this.setState({isLoggedIn: true})}
-        />;
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#16a085" title="pagina chida"/>
+        <Login navigation={this.props.navigation} />
+      </View>
+    );
   }
 }
 
+export default App = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: "Inicio"
+    }
+  },
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      title: "Inicio de sesion"
+    }
+  },
+  Register: {
+    screen: Register,
+    navigationOptions: {
+      title: "Registro"
+    }
+  },
+  ForgetPassword: {
+    screen: ForgetPassword,
+    navigationOptions: {
+      title: "Recuperar contraseña"
+    }
+  },
+  Boiler: {
+    screen: Boiler,
+    navigationOptions: {
+      title: "Boiler"
+    }
+  },
+  Inicio:{
+    screen: Inicio,
+    navigationOptions:{
+      title:"Inicio"
+    }
+  }
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
