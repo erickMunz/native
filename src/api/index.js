@@ -1,9 +1,8 @@
-import 'whatwg-fetch'
 import { ValidateToken, RemoveToken } from '../helpers'
 
-const API_HOST = process.env.NODE_ENV === 'production' ? 'www.algo.com' : 'localhost'
-const API_PORT = process.env.API_PORT || '10010'
-const API_URL = `http://${API_HOST}:${API_PORT}/`
+const API_HOST = "d06baaf8.ngrok.io"
+const API_PORT = process.env.API_PORT || '80'
+const API_URL = `http://${API_HOST}:${API_PORT}`
 
 // CONTIENE LAS FUNCIONES QUE MAPEAN LOS DIFERENTES METODOS DE LA API
 function getValidToken(token) {
@@ -27,7 +26,7 @@ function health() {
       })
   })
 }
-
+/*
 function login(request) {
   return new Promise(function (resolve, reject) {
     const args = {
@@ -54,7 +53,7 @@ function login(request) {
         if (!res.success) {
           reject(res.message)
         }
-
+        /*
         // We validate the token and store it on browser's localStorage
         let userInfo = ValidateToken(res.token)
         if (userInfo) {
@@ -62,23 +61,41 @@ function login(request) {
           resolve(userInfo)
         } else {
           reject('error')
-        }
+        }*/
+        /*
       }).catch(err => {
         console.log(err)
         reject(err)
       })
   })
+}*/
+function login(args){
+  return new Promise(function (resolve, reject) {
+    fetch(API_URL+"/api/login",{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(args)
+    })
+    .then(response => {
+      if(response.status==200){
+        return response._bodyInit
+      }else{
+        reject(response)
+      }
+    }).then((res)=>{
+      //aqui deberia ir lo de la api key
+      resolve(res);
+      })
+    .catch(err=>{ reject(err)})
+  })
 }
 
-function register(request) {
+function register(args) {
   return new Promise(function (resolve, reject) {
-    const args = {
-      'username': request.username,
-      'email': request.email,
-      'password': request.password
-    }
 
-    fetch(API_URL + 'user', {
+    fetch(API_URL + '/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -86,17 +103,15 @@ function register(request) {
       body: JSON.stringify(args)
     })
       .then(res => {
-        console.log('POST REGISTER', res.ok, res.status, res.statusText)
+        console.log(res);
         if (res.status !== 200) {
           reject(res.status)
         }
-        return res.text()
+        return res
       })
       .then(body => {
-        let res = JSON.parse(body)
-        if (!res.success) {
-          reject(res.message)
-        }
+        resolve(JSON.parse(body))
+        /*
 
         // We validate the token and store it on browser's localStorage
         let userInfo = ValidateToken(res.token)
@@ -105,7 +120,7 @@ function register(request) {
           resolve(userInfo)
         } else {
           reject('error')
-        }
+        }*/
       }).catch(err => {
         console.log(err)
         reject(err)

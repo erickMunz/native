@@ -14,5 +14,5 @@ export function ValidateToken(token) {
 }
 
 export function RemoveToken() {
-  window.localStorage.removeItem('API_TOKEN')
+  AsyncStorage.removeItem('API_TOKEN')
 }

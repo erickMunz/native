@@ -12,6 +12,7 @@ import Boiler from "./src/app/components/Boiler";
 import ForgetPassword from "./src/app/components/ForgetPassword";
 import Register from "./src/app/components/Register";
 import Inicio from "./src/app/components/Inicio";
+import Camera from "./src/app/components/camara";
 
 import { StackNavigator } from "react-navigation";
 
@@ -56,7 +57,7 @@ export default App = StackNavigator({
   Register: {
     screen: Register,
     navigationOptions: {
-      title: "Registro"
+      title: "Registro",
     }
   },
   ForgetPassword: {
@@ -75,6 +76,12 @@ export default App = StackNavigator({
     screen: Inicio,
     navigationOptions:{
       title:"Inicio"
+    }
+  },
+  Camera:{
+    screen: Camera,
+    navigationOptions:{
+      title:"Camara"
     }
   }
 });
